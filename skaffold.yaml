@@ -1,0 +1,53 @@
+apiVersion: skaffold/v4beta7
+kind: Config
+metadata:
+  name: blog-apis
+build:
+  artifacts:
+    - image: kandy0511/comments
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: kandy0511/event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: kandy0511/moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: kandy0511/posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: kandy0511/query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+  local:
+    push: false
+manifests:
+  rawYaml:
+    - infra/k8s/*.yaml
+deploy:
+  kubectl: {}
